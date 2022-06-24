@@ -1,0 +1,224 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BeTheHero",
+        "description": "Aplicação para conectar ONGs e outras instituições a pessoas que tem disponibilidade para ajudar.",
+        "license": "MIT",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/ongs": {
+            "get": {
+                "summary": "Lista das Ongs cadastradas no sistema",
+                "description": "Rota responsável por listar todas as Ongs que estão cadastradas no sistema",
+                "tags": [
+                    "Ongs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ong"
+                            },
+                            "examples": {
+                                "ong": {
+                                    "value": {
+                                        "id": "1234",
+                                        "name": "Ong de exemplo",
+                                        "email": "ong@example.com",
+                                        "whatsapp": "83 9 9999-9999",
+                                        "city": "João Pessoa",
+                                        "uf": "PB"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastra Ong no sistema",
+                "description": "Rota responsável por cadastrar uma Ong no sistema",
+                "tags": [
+                    "Ongs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "whatsapp": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "uf": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "ong": {
+                                    "value": {
+                                        "name": "Ong de exemplo",
+                                        "email": "ong@example.com",
+                                        "whatsapp": "83 9 9999-9999",
+                                        "city": "João Pessoa",
+                                        "uf": "PB"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/incidents": {
+            "get": {
+                "summary": "Lista dos Incidentes cadastrados no sistema",
+                "description": "Rota responsável por listar os incidentes cadastrados no sistema",
+                "tags": [
+                    "Incident"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Incident"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastra um novo incidente para uma Ong",
+                "description": "Rota responsável por cadastrar um novo incidente para uma Ong em específico",
+                "tags": [
+                    "Incident"
+                ],
+                "parameters": [
+                    {
+                        "name": "ong_id",
+                        "in": "headers",
+                        "description": "ID da Ong que está cadastrando o incidente",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Incident"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Exclui um incidente cadastrado para uma Ong",
+                "description": "Rota responsável por excluir um incidente cadastrado para uma Ong",
+                "tags": [
+                    "Incident"
+                ],
+                "parameters": [
+                    {
+                        "name": "ong_id",
+                        "in": "headers",
+                        "description": "ID da Ong que está cadastrando o incidente",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Indident Deleted"
+                    },
+                    "404": {
+                        "description": "Incident not found"
+                    },
+                    "401": {
+                        "description": "Operation not permited"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Ong": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "whatsapp": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "uf": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Incident": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
